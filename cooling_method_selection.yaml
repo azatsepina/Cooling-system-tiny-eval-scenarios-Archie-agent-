@@ -1,43 +1,39 @@
-eval_id: cooling_method_selection
-task:
-  name: "Cooling Method Recommendation"
-  description: >
-    For a compact enclosure hosting a processor dissipating 45W, select the
-    most appropriate cooling method among three options, justify it with thermal
-    reasoning, and list the tradeoffs.
+description: 'Cooling Method Selection Test'
 
-inputs:
-  power_w: 45
-  enclosure_volume_l: 0.8
-  options:
-    passive_heatsink:
-      r_theta_c_per_w: 2.4
-      noise_db: 0
-    active_fan:
-      r_theta_c_per_w: 1.1
-      noise_db: 28
-    vapor_chamber:
-      r_theta_c_per_w: 0.6
-      noise_db: 0
+prompts:
+  - file://prompts.json
 
-expected_outputs:
-  recommended_method: "active_fan"
-  justification_keywords:
-    - "space constraint"
-    - "heat density"
-    - "tradeoff"
-    - "noise acceptable"
+providers:
+  - file://providers.yaml
 
-checks:
-  - name: "must_reference_constraints"
-    type: "keyword_presence"
-  - name: "no_hallucinated_methods"
-    type: "strict_option_check"
-  - name: "reasoning_depth"
-    type: "multi_step_reasoning"
-
-metadata:
-  engineering_skills:
-    - thermal tradeoff analysis
-    - decision-making under constraints
-    - spatial reasoning (enclosure limitations)
+tests:
+  - vars:
+      name: cooling_case_001
+      eval_id: cooling_method_selection_v0.1
+      power_w: 50
+      ambient_temp_c: 30
+      max_sink_temp_c: 75
+      heatsink_r_theta_c_per_w: 0.9
+      cooling_options:
+        - type: air
+          max_power_w: 40
+        - type: liquid
+          max_power_w: 150
+        - type: passive
+          max_power_w: 20
+      expected_method: liquid
+  - assert:
+      - type: contains-all
+        value:
+          - expected_method
+      - type: reasoning-consistency
+        value:
+          - cooling_options
+          - power_w
+          - max_sink_temp_c
+      - type: unit-validation
+        value:
+          - power_w
+          - ambient_temp_c
+          - max_sink_temp_c
+          - heatsink_r_theta_c_per_w
