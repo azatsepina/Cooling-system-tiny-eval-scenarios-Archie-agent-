@@ -1,7 +1,7 @@
 description: 'Airflow Verification Test'
 
 prompts:
-  - file://airflow_verification.json
+  - file://prompts.json
 
 providers:
   - file://providers.yaml
