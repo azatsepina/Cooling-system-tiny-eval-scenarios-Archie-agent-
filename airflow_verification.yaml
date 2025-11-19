@@ -1,0 +1,39 @@
+eval_id: airflow_verification
+task:
+  name: "Airflow Requirement for Forced Convection"
+  description: >
+    Given a heatsink and power dissipation, determine the required airflow (CFM)
+    to maintain the component below 70°C. Provide reasoning and describe the
+    assumptions used.
+
+inputs:
+  power_w: 18
+  ambient_temp_c: 25
+  max_sink_temp_c: 70
+  heatsink_r_theta_c_per_w: 1.4
+  airflow_lookup_table_cfm:
+    - cfm: 5
+      effective_r_theta: 1.3
+    - cfm: 10
+      effective_r_theta: 1.0
+    - cfm: 15
+      effective_r_theta: 0.8
+
+expected_outputs:
+  required_cfm:
+    min: 5
+    max: 12
+
+checks:
+  - name: "no_hallucinated_table_values"
+    type: "referential_integrity"
+  - name: "temperature_margin_correct"
+    type: "numerical_consistency"
+  - name: "units_correct"
+    type: "unit_validation"
+
+metadata:
+  engineering_skills:
+    - convective cooling
+    - interpreting lookup tables
+    - numerical reasoning
