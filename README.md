@@ -36,7 +36,7 @@ The purpose of this eval suite to tests whether an engineering agent (e.g., Arch
         │ - Checks & validations  │
         │ - CI/CD integration     │
         └─────────────────────────┘
-### OVERvIEW 
+### What it does
 The YAML micro-eval suite is the structured test layer sitting at the end of the pipeline. Each YAML file defines a task, for example: a cooling-system problem — 
 with inputs, constraints, expected outputs, and checks for hallucinations, units, and reasoning depth.
 When we run an eval:
