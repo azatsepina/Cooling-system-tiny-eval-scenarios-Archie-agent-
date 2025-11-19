@@ -8,7 +8,7 @@ task:
 
 # Reference to the JSON file(s)
 cases:
-  - path: "cases_airflow_verification.json"
+  - path: "airflow_verification.json"
 
 checks:
   - name: "no_hallucinated_table_values"
