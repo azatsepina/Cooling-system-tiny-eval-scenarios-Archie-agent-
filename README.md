@@ -2,40 +2,36 @@ The purpose of this eval suite to tests whether an engineering agent (e.g., Arch
 
 ### OVERVIEW:
 
+       ```mermaid
+flowchart TB
+    LLM[LLM Reasoner<br>- Task decomposition<br>- Tool selection<br>- Chain-of-thought reasoning<br>- Output integration]
 
-                ┌─────────────────────┐
-                │  LLM Reasoner       │
-                │  - Task decomposition
-                │  - Tool selection
-                │  - Chain-of-thought reasoning
-                │  - Output integration
-                └─────────┬───────────┘
-                          │
-          ┌───────────────┼─────────────────┐
-          │               │                 │
-┌─────────▼────────┐ ┌────▼──────────┐ ┌────▼─────────┐
-│ Neural Model 1   │ │ Neural Model 2│ │ Neural Model 3│
-│ (Vision / CAD)   │ │(Performans    │ │ (Spatial /    │
-│                  │ │ estimation)   | │ Physics)      │
-└─────────┬────────┘ └────┬──────────┘ └────┬─────────┘
-          │               │                 │
-          └──────┬────────┴────────┬────────┘
-                 │                 │
-         ┌───────▼─────────┐ ┌─────▼─────────┐
-         │ Non-Neural Tool │ │ Human Feedback│
-         │ (APIs / CAD     │ │ Advisory /    │
-         │ software)       │ │ Validation)   │
-         └─────────┬───────┘ └───────────────┘
-                   │
-                   ▼
-        ┌─────────────────────────┐
-        │ YAML Micro-Eval Suite   │
-        │ - Task definitions      │
-        │ - Input parameters      │
-        │ - Expected outputs      │
-        │ - Checks & validations  │
-        │ - CI/CD integration     │
-        └─────────────────────────┘
+    NM1[Neural Model 1<br>(Vision / CAD)]
+    NM2[Neural Model 2<br>(Quantitative Solver)]
+    NM3[Neural Model 3<br>(Spatial / Physics)]
+
+    NNTools[Non-Neural Tool<br>(APIs / CAD software)]
+    Human[Human Feedback<br>(Advisory / Validation)]
+
+    YAML[YAML Micro-Eval Suite<br>- Task definitions<br>- Input parameters<br>- Expected outputs<br>- Checks & validations<br>- CI/CD integration]
+
+    LLM --> NM1
+    LLM --> NM2
+    LLM --> NM3
+
+    NM1 --> NNTools
+    NM2 --> NNTools
+    NM3 --> NNTools
+
+    NM1 --> Human
+    NM2 --> Human
+    NM3 --> Human
+
+    NNTools --> YAML
+    Human --> YAML
+```
+
+
 ### What it does
 The YAML micro-eval suite is the structured test layer sitting at the end of the pipeline. Each YAML file defines a task, for example: a cooling-system problem — 
 with inputs, constraints, expected outputs, and checks for hallucinations, units, and reasoning depth.
