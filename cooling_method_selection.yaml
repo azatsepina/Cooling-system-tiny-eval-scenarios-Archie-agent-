@@ -1,0 +1,43 @@
+eval_id: cooling_method_selection
+task:
+  name: "Cooling Method Recommendation"
+  description: >
+    For a compact enclosure hosting a processor dissipating 45W, select the
+    most appropriate cooling method among three options, justify it with thermal
+    reasoning, and list the tradeoffs.
+
+inputs:
+  power_w: 45
+  enclosure_volume_l: 0.8
+  options:
+    passive_heatsink:
+      r_theta_c_per_w: 2.4
+      noise_db: 0
+    active_fan:
+      r_theta_c_per_w: 1.1
+      noise_db: 28
+    vapor_chamber:
+      r_theta_c_per_w: 0.6
+      noise_db: 0
+
+expected_outputs:
+  recommended_method: "active_fan"
+  justification_keywords:
+    - "space constraint"
+    - "heat density"
+    - "tradeoff"
+    - "noise acceptable"
+
+checks:
+  - name: "must_reference_constraints"
+    type: "keyword_presence"
+  - name: "no_hallucinated_methods"
+    type: "strict_option_check"
+  - name: "reasoning_depth"
+    type: "multi_step_reasoning"
+
+metadata:
+  engineering_skills:
+    - thermal tradeoff analysis
+    - decision-making under constraints
+    - spatial reasoning (enclosure limitations)
