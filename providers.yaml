@@ -1,0 +1,10 @@
+- id: ''
+  config:
+      method: 'POST'
+      headers:
+        'Content-Type': 'application/json'
+        'x-api-key': ''
+      body:
+        email: ''
+        messages: '{{prompt}}'
+      transformResponse:
