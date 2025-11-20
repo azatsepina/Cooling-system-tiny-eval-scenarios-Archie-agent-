@@ -1,10 +1,15 @@
-- id: ''
+- id: 'https://api.nameoftheapp.ai/chats/promptfoo'
+# or it can be any LLM - id:openai :gpt-5
+#- id: anthropic:claud-4-5-sonnet
+# config: 
+# tempereture: 0.7
+# max_tokens: 150 
   config:
       method: 'POST'
       headers:
         'Content-Type': 'application/json'
-        'x-api-key': ''
+        'x-api-key': 
       body:
-        email: ''
-        messages: '{{prompt}}'
-      transformResponse:
+        email: YOUR EMAIL
+        message: '{{prompt}}'
+      transformResponse: 'json.message'
