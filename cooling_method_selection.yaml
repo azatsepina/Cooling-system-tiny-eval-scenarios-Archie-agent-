@@ -9,12 +9,17 @@ providers:
 tests:
   - vars:
       name: cooling_case_001
+      # A unique identifier for this test case.
       eval_id: cooling_method_selection_v0.1
+      # like a version of the test
       power_w: 50
+      # power in watts that needs cooling
       ambient_temp_c: 30
+      # environment temperature in Celsius
       max_sink_temp_c: 75
-      heatsink_r_theta_c_per_w: 0.9
+      # max allowed temperature of the heatsink before it’s unsafe
       cooling_options:
+      # cooling methods 
         - type: air
           max_power_w: 40
         - type: liquid
@@ -22,18 +27,22 @@ tests:
         - type: passive
           max_power_w: 20
       expected_method: liquid
+      # AI should pick “liquid” because it can handle 50 W
   - assert:
       - type: contains-all
         value:
           - expected_method
+      # Checks that the output includes the expected method (liquid)
       - type: reasoning-consistency
         value:
           - cooling_options
           - power_w
           - max_sink_temp_c
+      # Checks that the AI’s reasoning matches the input parameters
       - type: unit-validation
         value:
           - power_w
           - ambient_temp_c
           - max_sink_temp_c
           - heatsink_r_theta_c_per_w
+      # Ensures all numeric values are in the correct units
